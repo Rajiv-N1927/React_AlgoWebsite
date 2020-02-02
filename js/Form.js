@@ -22,7 +22,7 @@ export class MyForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(window.screen.height * window.devicePixelRatio)
+    console.log(this.getText())
   }
 
   render() {
