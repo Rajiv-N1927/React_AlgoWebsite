@@ -17,14 +17,9 @@
           }
         })
       };
-      this.handleBarModification = this.handleBarModification.bind(this);
       this.sorter = new Sort(this.state.map, (newMap, newLength) =>
         this.setState({map: newMap, numBars: newLength})
       )
-    }
-
-    handleBarModification(e) {
-      this.sorter.sort()
     }
 
     render() {
@@ -32,6 +27,7 @@
       return vertBars({...this.state, clickHandler: this.sorter.sort})
     }
   }
+
   VertBarDisplay.defaultProps = {
     numBars: 40,
     containerPercentageWidth: 0.7,
@@ -39,7 +35,8 @@
     maxHeight: 40 //Given in terms of viewport height
   }
 
-  //Number of places given as an exponent of 10
+  //Takes in the number assuming a float, and the number of places it must be
+  // Rounded to
   //E.g.
   export function roundDown(floatNum, toPlace) {
     let places = Math.pow(10, toPlace)
