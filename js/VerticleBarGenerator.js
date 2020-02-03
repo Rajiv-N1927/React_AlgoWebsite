@@ -1,78 +1,48 @@
+ import { Sort } from './Sort.js'
 /*
   Generates verticle bars of randomized sizes
 */
 
-  let vBarBoxWidth = 0.6;
-
-  export class VertBars extends React.Component {
+  export class VertBarDisplay extends React.Component {
     constructor(props) {
       super(props)
-      const width = document.getElementById(this.props.parentIdName).getBoundingClientRect().width
       this.state = {
-        items: vertBars({
-          numBars: this.props.numBars,
-          parentWidth: width,
-          percentageWidth: vBarBoxWidth,
-          bias: 5
+        numBars: props.numBars,
+        parentWidth: props.containerWidth,
+        percentageWidth: props.containerPercentageWidth,
+        map: Array.from(new Array(props.numBars), (x, i) => {
+          return {
+            key: i,
+            height: Math.random()*props.maxHeight + props.bias
+          }
         })
       };
       this.handleBarModification = this.handleBarModification.bind(this);
-    }
-
-    modifyBarStyle(item, changedStyle) {
-      return React.createElement(item.type, {
-        className: item.props.className,
-        style: Object.assign({}, item.props.style, changedStyle),
-        key: item.key,
-        id: item.key
-      })
-    }
-
-    handleBarModification(e) {
-      let randomItem = this.state.items.slice(0)[0];
-      let bounds = document.getElementById(randomItem.props.id).getBoundingClientRect()
-      this.setState(
-        {
-          items: this.state.items.map((item, i) => {
-            //Define style props
-            console.log(document.getElementById(item.props.id).getBoundingClientRect())
-            if ( i % 2 == 0 ) {
-              let bgColor = item.props.style.backgroundColor === "blue" ? "red" : "blue"
-              return this.modifyBarStyle(item,
-                {transform: `translateY(${bounds.y}px)`})
-            } else {
-              return this.modifyBarStyle(item,
-                {transform: `translateY(${-bounds.y}px)`}
-              )
-            }
-          })
-        }
+      this.sorter = new Sort(this.state.map, (newMap, newLength) =>
+        this.setState({map: newMap, numBars: newLength})
       )
     }
 
-
-
-    render() {
-      return [React.createElement(
-        "div", {
-          className: "vBarBox",
-          style: {width: `${vBarBoxWidth*100}%`},
-          key:"vBarBox"
-        }, this.state.items
-      ),
-      React.createElement("button", {
-        className: "sortButton",
-        onClick: this.handleBarModification,
-        key:"vBarButton"
-      }, "Sort")]
+    handleBarModification(e) {
+      this.sorter.sort()
     }
 
+    render() {
+      let barProps = this.state;
+      return vertBars({...this.state, clickHandler: this.sorter.sort})
+    }
   }
-  VertBars.defaultProps = {
-    numBars: 20
+  VertBarDisplay.defaultProps = {
+    numBars: 40,
+    containerPercentageWidth: 0.7,
+    bias: 5,
+    maxHeight: 40 //Given in terms of viewport height
   }
 
-  export function roundDown(floatNum, places) {
+  //Number of places given as an exponent of 10
+  //E.g.
+  export function roundDown(floatNum, toPlace) {
+    let places = Math.pow(10, toPlace)
     return Math.round( floatNum * places ) / places
   }
 
@@ -90,28 +60,29 @@
     let singleWidth = (props.parentWidth*props.percentageWidth)/(props.numBars+1);
     let barWidth = singleWidth - margin;
     let barWidthAsPercentage = parseFloat((100*barWidth/(props.parentWidth*props.percentageWidth)).toFixed(7));
-    barWidthAsPercentage = roundDown(barWidthAsPercentage, 10000);
-
-    //Checking the widths
-    console.log(barWidth + " " + barWidthAsPercentage);
-    console.log(props.parentWidth + " " + barWidth);
-
-    let myArr = []
-    for (let i = 0; i < props.numBars; i++) {
-      let height = 40*Math.random()+props.bias;
-      myArr.push(
+    barWidthAsPercentage = roundDown(barWidthAsPercentage, 5);
+    return React.createElement(
+      "div", {
+        className: "vBarBox",
+        style: {width: `${props.percentageWidth*100}%`},
+        key:"vBarBox"
+      }, Array.from(new Array(props.numBars), (item, i) =>
         React.createElement("div",
           {
             className: "barTest",
-            id: `${i}`,
-            key: `${i}`,
+            id: `${props.map[i].key}`,
+            key: `${props.map[i].key}`,
+            size: props.map[i].height,
             style: {
               width: `${barWidthAsPercentage}%`,
-              height: `${height}vh`
+              height: `${props.map[i].height}vh`
             }
           }
         )
-      )
-    }
-    return myArr
+      ), React.createElement("button", {
+        className: "sortButton",
+        onClick: props.clickHandler,
+        key:"vBarButton"
+      }, "Add")
+    )
   }
