@@ -19,6 +19,6 @@ export class Sort {
       [...this.map, this.map.push({key: this.key,
         height: Math.random()*40 + 5})], this.key
     )
+    console.log("sort", this.map)
   }
-
 }

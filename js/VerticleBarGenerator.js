@@ -1,4 +1,5 @@
  import { Sort } from './Sort.js'
+ import { NavigationBar } from './navBar.js'
 /*
   Generates verticle bars of randomized sizes
 */
@@ -22,9 +23,17 @@
       )
     }
 
+    componentDidMount() {
+      this.sorter.sort() // Hacky fix need to resolve this problem
+    }
+
     render() {
-      let barProps = this.state;
-      return vertBars({...this.state, clickHandler: this.sorter.sort})
+      console.log("disp", this.state.numBars)
+      let list = ["BubbleSort", "QuickSort", "MergeSort", "HeapSort"]
+      return [
+        React.createElement(NavigationBar, {items: list}),
+        vertBars({...this.state, clickHandler: this.sorter.sort})
+      ]
     }
   }
 
