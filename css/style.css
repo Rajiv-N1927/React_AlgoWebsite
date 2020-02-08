@@ -1,16 +1,51 @@
 html {
  padding: 0;
  margin: 0;
- top: 0;
 }
 
 body {
-  margin: 0px
+  margin: 0px;
   padding: 0px;
+  font-family: sans-serif;
+}
+/* CSS for the navigation bar */
+.navBar {
+  /* position: absolute; */
+  width: 100%;
+  height: 70px;
+  background-color: rgba(250, 250, 250, 0.8);
 }
 
+.navContainer {
+  padding: 25px 0 0 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  color: rgba(15, 15, 15, 0.8);
+  width: 25%;
+  height: 100%;
+}
+
+.navContainer:hover li{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.navContainer li {
+  font-weight: 100;
+  display: none;
+  margin-right: 5%;
+}
+
+.navContainer li:nth-child(1) {
+  font-weight: 500;
+  display: block;
+}
+
+/* CSS for the bar container */
 .vBarBox {
   margin: 0 auto;
+  padding-top: 10%;
   height: 45vh;
   /* transform: rotateX(180deg); */
 }
@@ -21,13 +56,15 @@ body {
   border-left: 1px solid black;
 }
 
+/* CSS for the sort button */
+
 .sortButton {
-  width: 8%;
-  height: 7vh;
+  width: 25%;
+  height: 60px;
   background-color: rgb(80, 156, 255);
-  border-radius: 3vh;
+  border-radius: 15px;
   display: inline-block;
-  margin: 1% 0 0 46%;
+  margin: 1% 0 0 37.5%;
   transition: 0.2s ease-in;
 }
 
