@@ -13,24 +13,25 @@
         percentageWidth: props.containerPercentageWidth,
         map: Array.from(new Array(props.numBars), (x, i) => {
           return {
-            key: i,
+            key: i == 0 ? "roflxd" : i + props.maxHeight.toString(),
             height: Math.random()*props.maxHeight + props.bias
           }
         })
       };
-      this.sorter = new Sort(this.state.map, (newMap, newLength) =>
-        this.setState({map: newMap, numBars: newLength})
-      )
+      this.sorter = new Sort( this.state.map, (newMap) => this.setState({map: newMap}) )
     }
 
     componentDidMount() {
-      this.sorter.sort() // Hacky fix need to resolve this problem
+      //this.sorter.sort() // Hacky fix need to resolve this problem
     }
 
     render() {
       let list = ["Bubble Sort", "Quick Sort", "Merge Sort", "Heap Sort"]
       return [
-        React.createElement(NavigationBar, {items: list}),
+        React.createElement(NavigationBar, {
+          items: list,
+          //listener: (percentageWidth) => this.setState({containerPercentageWidth: percentageWidth})
+        }),
         vertBars({...this.state, clickHandler: this.sorter.sort})
       ]
     }
@@ -80,7 +81,8 @@
             size: props.map[i].height,
             style: {
               width: `${barWidthAsPercentage}%`,
-              height: `${props.map[i].height}vh`
+              height: `${props.map[i].height}vh`,
+              backgroundColor: props.map[i].key == "roflxd" ? "red" : "blue"
             }
           }
         )
@@ -88,6 +90,6 @@
         className: "sortButton",
         onClick: props.clickHandler,
         key:"vBarButton"
-      }, "Add")
+      }, "Swap")
     )
   }
