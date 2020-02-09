@@ -21,6 +21,18 @@ export class NavigationBar extends React.Component {
 
 }
 
+class Slider extends React.Component {
+  constructor(props) {
+    this.listener = props.listener
+  }
+
+  render() {
+    return rce("div")
+  }
+}
+
+//Need to pass a listener into the dropdown
+
 class DropDown extends React.Component {
   constructor(props) {
     super(props)
@@ -58,7 +70,8 @@ export const dropDown = (props) => {
   return rce("ul", {className: "navContainer"},
     rce("div", {
         key: props.active + "0",
-        onClick: props.toggleHandler
+        onMouseEnter: props.toggleHandler,
+        onMouseLeave: props.toggleHandler
       }, rce("a", {}, props.active),
       rce("div", {
         className: props.toggled ? "dropDown show" : "dropDown"
