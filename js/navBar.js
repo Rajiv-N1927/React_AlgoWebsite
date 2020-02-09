@@ -2,6 +2,7 @@
   Navigation bar contains drop down menu for different sorting algo's
   and sliders for different speeds
 */
+const rce = React.createElement;
 
 export class NavigationBar extends React.Component {
 
@@ -13,8 +14,8 @@ export class NavigationBar extends React.Component {
   }
 
   render() {
-    return React.createElement("div", {className: "navBar"},
-      React.createElement(DropDown, {items: this.state.dditems})
+    return rce("div", {className: "navBar"},
+      rce(DropDown, {items: this.state.dditems})
     )
   }
 
@@ -24,33 +25,49 @@ class DropDown extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      activated: props.items[0]
+      activated: props.items[0],
+      toggled: false
     }
     this.clickHandler = this.clickHandler.bind(this)
+    this.toggleMenu = this.toggleMenu.bind(this)
   }
 
   clickHandler(e) {
     this.setState({ activated: e.target.innerHTML })
   }
 
+  toggleMenu(e) {
+    this.setState({
+      toggled: !this.state.toggled
+    })
+  }
+
   render() {
     let props = {
       active: this.state.activated,
       items: this.props.items.filter(item => item !== this.state.activated),
-      handler: this.clickHandler
+      handler: this.clickHandler,
+      toggleHandler: this.toggleMenu,
+      toggled: this.state.toggled
     }
-    return listGen(props)
+    return dropDown(props)
   }
 }
 
-export const listGen = (props) => {
-  return React.createElement("ul", {className: "navContainer"},
-    React.createElement("li", {
+export const dropDown = (props) => {
+  return rce("ul", {className: "navContainer"},
+    rce("div", {
         key: props.active + "0",
-        dangerouslySetInnerHTML: createMarkup(props.active)
-      }),
-    props.items.map( (x, i) => React.createElement("li",
-      {key: x + i.toString(), onClick: props.handler,}, x)), null)
+        onClick: props.toggleHandler
+      }, rce("a", {}, props.active),
+      rce("div", {
+        className: props.toggled ? "dropDown show" : "dropDown"
+      }, props.items.map( (x, i) => rce("li",
+          {key: x + i.toString(), onClick: props.handler}, rce("a", {
+            onClick: props.handler
+          }, x))
+        ),
+      )
+    )
+  )
 }
-
-function createMarkup(msg) { return {__html: msg + ' &#8250;'}; };
