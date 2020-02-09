@@ -7,6 +7,7 @@ import { VertBarDisplay } from './VerticleBarGenerator.js'
 ReactDOM.render(
  React.createElement(
    VertBarDisplay, {
+     numBars: 40,
      containerWidth: document.getElementById('app').getBoundingClientRect().width,
    }
  ), document.getElementById('app')
