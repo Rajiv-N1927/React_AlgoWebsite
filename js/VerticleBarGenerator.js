@@ -28,8 +28,7 @@
     }
 
     render() {
-      console.log("disp", this.state.numBars)
-      let list = ["BubbleSort", "QuickSort", "MergeSort", "HeapSort"]
+      let list = ["Bubble Sort", "Quick Sort", "Merge Sort", "Heap Sort"]
       return [
         React.createElement(NavigationBar, {items: list}),
         vertBars({...this.state, clickHandler: this.sorter.sort})
