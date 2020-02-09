@@ -12,34 +12,70 @@ body {
 .navBar {
   /* position: absolute; */
   width: 100%;
-  height: 70px;
-  background-color: rgba(250, 250, 250, 0.8);
+  height: 50px;
+  background-color: rgba(49, 149, 237, 0.3);
+  float: none;
 }
 
 .navContainer {
-  padding: 25px 0 0 0;
+  padding: 0;
   margin: 0;
   list-style: none;
   text-align: center;
+  font-size: 1.1em;
   color: rgba(15, 15, 15, 0.8);
-  width: 25%;
-  height: 100%;
+  /* border: 2px solid rgba(49, 149, 237, 0.85); */
+  width: 12.5em;
+  height: 95%;
 }
 
-.navContainer:hover li{
-  display: inline-block;
+.navContainer > div {
+  font-weight: 500;
+  padding: 1rem 1rem;
+}
+
+.navContainer > div:hover {
+    background-color: rgba(49, 149, 237, 0.4);
+    cursor: pointer;
+}
+
+.navContainer > div > a::after {
+  content: " \25B6";
+  font-size: 13px;
+}
+
+.dropDown {
+  font-weight: 100;
+  position: absolute;
+  display: none;
+  background-color: rgba(49, 149, 237, 0.3);
+  border: 2px solid rgba(49, 149, 237, 0.85);
+  border-radius: 0.25rem;
+  width: 12.5em;
+  top: 2.5em;
+
+}
+
+.show {
+  display: block;
+}
+
+.dropDown li {
+  border-radius: 0.25rem solid black;
   cursor: pointer;
 }
 
-.navContainer li {
-  font-weight: 100;
-  display: none;
-  margin-right: 5%;
+.dropDown li:hover {
+  background-color: rgba(49, 149, 237, 0.4);
 }
 
-.navContainer li:nth-child(1) {
-  font-weight: 500;
+.dropDown li a {
+  padding: 0;
+  margin: 0;
+  width: 100%;
   display: block;
+  position: relative;
+  padding: 0.5rem 0;
 }
 
 /* CSS for the bar container */
