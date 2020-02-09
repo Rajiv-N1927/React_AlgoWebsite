@@ -10,13 +10,23 @@ export class Sort {
     this.listener = listener;
     this.key = map.length-1;
     this.sort = this.sort.bind(this)
+    this.toggleInterval = false
   }
 
   // Placeholder code to ensure the listener works
-  sort(e) {
-    this.map = swap(this.map, 0, 10)
-    this.listener( this.map )
-    // console.log(this.map)
+  sort() {
+    if ( this.toggleInterval == false ) {
+      this.active = setInterval(() => {
+        this.map.forEach((item, i) => {
+          if ( i > 0 )
+            this.map = swap(this.map, i-1, i)
+        })
+        this.listener( this.map )
+      }, 100)
+    }
+    else
+      clearInterval(this.active)
+    this.toggleInterval = !this.toggleInterval
   }
 }
 
