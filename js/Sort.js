@@ -14,11 +14,14 @@ export class Sort {
 
   // Placeholder code to ensure the listener works
   sort(e) {
-    this.key += 1;
-    this.listener(
-      [...this.map, this.map.push({key: this.key,
-        height: Math.random()*40 + 5})], this.key
-    )
-    console.log(this.map)
+    this.map = swap(this.map, 0, 10)
+    this.listener( this.map )
+    // console.log(this.map)
   }
+}
+
+const swap = (arr, x, y) => {
+  return [
+    ...arr.slice(0, x), arr[y], ...arr.slice(x+1, y), arr[x], ...arr.slice(y+1)
+  ]
 }
