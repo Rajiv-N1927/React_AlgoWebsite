@@ -11,15 +11,33 @@
         numBars: props.numBars,
         parentWidth: props.containerWidth,
         percentageWidth: props.containerPercentageWidth,
+        disabled: false,
         map: Array.from(new Array(props.numBars), (x, i) => {
           return {
             key: i + props.maxHeight.toString(),
             height: Math.random()*props.maxHeight + props.bias,
-            bgCol: "white"
+            //bgCol: "white"
           }
         })
       };
-      this.sorter = new Sort( this.state.map, (newMap) => this.setState({map: newMap}) )
+      this.sorter = new Sort( this.state.map, (newMap, disabled) =>
+        this.setState({map: newMap, disabled: disabled}))
+
+      this.refreshBars = this.refreshBars.bind(this)
+    }
+
+    refreshBars() {
+      let newMap = Array.from(new Array(this.state.numBars), (x, i) => {
+        return {
+          key: i + this.props.maxHeight.toString(),
+          height: Math.random()*this.props.maxHeight + this.props.bias,
+          bgCol: "white"
+        }
+      })
+      this.sorter = new Sort( newMap, (map, disabled) => this.setState({map: map, disabled: disabled}))
+      this.setState({
+        map: newMap
+      })
     }
 
     render() {
@@ -29,7 +47,11 @@
           items: list,
           listener: newSpeed => { this.sorter.updateSpeed(newSpeed) }
         }),
-        vertBars({...this.state, clickHandler: this.sorter.toggleSort})
+        vertBars({
+            ...this.state,
+            sortHandler: this.sorter.toggleSort,
+            refreshHandler: this.refreshBars,
+          })
       ]
     }
   }
@@ -79,13 +101,21 @@
             style: {
               width: `${barWidthAsPercentage}%`,
               height: `${props.map[i].height}vh`,
-              backgroundColor: props.map[i].bgCol
+              //backgroundColor: props.map[i].bgCol
             }
-          }, `${roundDown(props.map[i].height, 2)}`)
-      ), React.createElement("button", {
-        className: "sortButton",
-        onClick: props.clickHandler,
-        key:"vBarButton"
-      }, "Swap")
+          }, /*`${roundDown(props.map[i].height, 2)}`*/)
+      ), React.createElement("div", {className: "buttonContainer"},
+          React.createElement("button", {
+          className: "customButton sort",
+          onClick: props.sortHandler,
+          disabled: props.disabled,
+          key:"sortButton"
+        }, "Sort"), React.createElement("button", {
+          className: "customButton refresh",
+          onClick: props.refreshHandler,
+          disabled: props.disabled,
+          key:"refreshButton"
+        }, "Refresh")
+      )
     )
   }
