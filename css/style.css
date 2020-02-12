@@ -22,6 +22,7 @@ body {
   margin: 0;
   list-style: none;
   text-align: center;
+  display: inline-block;
   font-size: 1.1em;
   color: rgba(15, 15, 15, 0.8);
   /* border: 2px solid rgba(49, 149, 237, 0.85); */
@@ -78,18 +79,58 @@ body {
   padding: 0.5rem 0;
 }
 
+/* Slider component of navigation menu */
+.sliderContainer {
+  padding: 1em 1em;
+  float: right;
+  display: inline-block;
+  width: 40%;
+}
+
+.sliderContainer p {
+  padding: 0;
+  margin: 0;
+  /* font-size: 12px; */
+  float: left;
+  display: inline;
+}
+
+.slider {
+  -webkit-appearance: none;
+  float: right;
+  outline: none;
+  background-color: rgba(237, 237, 237, 0.9);
+  height: 1em;
+  width: 70%;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(49, 149, 237, 0.9);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+
 /* CSS for the bar container */
 .vBarBox {
   margin: 0 auto;
-  padding-top: 10%;
+  /* padding-top: 10%; */
   height: 45vh;
   /* transform: rotateX(180deg); */
 }
 
-.barTest {
+.bar {
   display: inline-block;
-  background-color: blue;
-  border-left: 1px solid black;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.barUpdating {
+  background-color: gray;
 }
 
 /* CSS for the sort button */
@@ -97,10 +138,11 @@ body {
 .sortButton {
   width: 25%;
   height: 60px;
+  font-size: 1.2em;
   background-color: rgb(80, 156, 255);
   border-radius: 15px;
   display: inline-block;
-  margin: 1% 0 0 37.5%;
+  margin: 5% 0 0 37.5%;
   transition: 0.2s ease-in;
 }
 
