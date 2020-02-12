@@ -118,15 +118,15 @@ body {
 /* CSS for the bar container */
 .vBarBox {
   margin: 0 auto;
-  /* padding-top: 10%; */
   height: 45vh;
   /* transform: rotateX(180deg); */
 }
 
 .bar {
   display: inline-block;
-  background-color: white;
-  border: 1px solid black;
+  background-color: rgb(222, 222, 222);
+  border-right: 1px solid black;
+  border-top: 1px solid black;
 }
 
 .barUpdating {
@@ -135,23 +135,42 @@ body {
 
 /* CSS for the sort button */
 
-.sortButton {
+.buttonContainer {
+  display: inline;
+  padding: 10% 0 0 17%;
+}
+
+.customButton {
   width: 25%;
-  height: 60px;
+  height: 2em;
   font-size: 1.2em;
-  background-color: rgb(80, 156, 255);
-  border-radius: 15px;
+  margin-left: 2em;
+  border-radius: 0.25rem;
   display: inline-block;
-  margin: 5% 0 0 37.5%;
   transition: 0.2s ease-in;
 }
 
-.sortButton:hover {
-  cursor: pointer;
+.sort {
+  background-color: rgb(80, 156, 255);
+}
+
+.sort:hover {
   background-color: rgba(80, 156, 255, 0.6);
+}
+
+.refresh {
+  background-color: rgb(80, 255, 156);
+}
+
+.refresh:hover {
+  background-color: rgba(80, 255, 156, 0.6);
+}
+
+.customButton:hover {
+  cursor: pointer;
   transition: 0.2s ease-out;
 }
 
-.sortButton:focus {
+.customButton:focus {
   outline: none;
 }
