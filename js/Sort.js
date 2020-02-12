@@ -5,29 +5,52 @@
 export class Sort {
   //Map requires key, size
   constructor(map, listener) {
-    this.map = map;
     //Takes in a map of the keyPairs (key, size) and the length of the map
+    this.map = map;
     this.listener = listener;
-    this.key = map.length-1;
-    this.sort = this.sort.bind(this)
     this.toggleInterval = false
+    //Interval speed
+    this.speed = 100;
+    this.sort = this.sort.bind(this)
+    this.toggleSort = this.toggleSort.bind(this)
+    this.updateSpeed = this.updateSpeed.bind(this)
+    this.generateAnimations = this.generateAnimations.bind(this)
   }
 
-  // Placeholder code to ensure the listener works
-  sort() {
-    if ( this.toggleInterval == false ) {
-      this.active = setInterval(() => {
-        this.map.forEach((item, i) => {
-          if ( i > 0 )
-            this.map = swap(this.map, i-1, i)
-        })
-        this.listener( this.map )
-      }, 100)
-    }
-    else
-      clearInterval(this.active)
-    this.toggleInterval = !this.toggleInterval
+  updateSpeed(newSpeed) {
+    clearTimeout(this.active)
+    this.speed = newSpeed
   }
+
+  toggleSort() {
+    this.toggleInterval = !this.toggleInterval
+    this.sort()
+  }
+
+  generateAnimations() {
+    let array = Array.from(new Array(5*this.map.length), (x, i) => i)
+    return array
+  }
+
+  //Get the
+  sort() {
+    if ( this.toggleInterval ) {
+      const bars = document.getElementsByClassName('bar')
+      const newArr = this.generateAnimations()
+      newArr.forEach(idx => {
+        console.log(idx)
+        let bgCol = `rgb(${getRandomInt(255)}, ${getRandomInt(255)}, ${getRandomInt(255)})`
+        this.active = setTimeout(() => {
+            this.map[idx % this.map.length].bgCol = bgCol;
+            this.listener(this.map)
+        }, idx * this.speed);
+      });
+    }
+  }
+}
+
+const getRandomInt = max => {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
 const swap = (arr, x, y) => {
