@@ -23,7 +23,7 @@ class Slider extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: "70"
+      value: "25"
     }
     //Listener for updating speed of bar sort transition in Sort.js
     this.listener = props.listener
@@ -40,11 +40,11 @@ class Slider extends React.Component {
       rce("input", {
         type: "range",
         className: "slider",
-        min: "20",
-        max: "150",
+        min: "5",
+        max: "50",
         value: this.state.value,
         onChange: this.updateSlider
-      }, null), rce("p", {}, "Change speed "))
+      }, null), rce("p", {}, `Speed: ${this.state.value}ms`))
   }
 }
 
