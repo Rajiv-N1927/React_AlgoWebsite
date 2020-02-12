@@ -13,7 +13,7 @@ export class NavigationBar extends React.Component {
   render() {
     return rce("div", {className: "navBar"},
       rce(DropDown, {items: this.props.items}),
-      rce(Slider, {listener: this.props.listener})
+      rce(Slider, {baseSpeed: this.props.baseSpeed, listener: this.props.listener})
     )
   }
 
@@ -23,7 +23,7 @@ class Slider extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: "25"
+      value: props.baseSpeed
     }
     //Listener for updating speed of bar sort transition in Sort.js
     this.listener = props.listener

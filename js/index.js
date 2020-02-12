@@ -2,12 +2,18 @@
  // Example react project
 
 import { MyForm } from './Form.js'
-import { VertBarDisplay } from './VerticleBarGenerator.js'
+import { BarDisplay } from './BarDisplay.js'
+
+// for (var i=0;i<=10;i++) {
+//    (function(ind) {
+//        setTimeout(function(){console.log(ind);}, 1000 * ind);
+//    })(i);
+// }
 
 ReactDOM.render(
  React.createElement(
-   VertBarDisplay, {
-     numBars: 40,
+   BarDisplay, {
+     numBars: 50,
      containerWidth: document.getElementById('app').getBoundingClientRect().width,
    }
  ), document.getElementById('app')

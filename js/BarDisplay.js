@@ -4,7 +4,7 @@
   Generates verticle bars of randomized sizes
 */
 
-  export class VertBarDisplay extends React.Component {
+  export class BarDisplay extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
@@ -20,9 +20,9 @@
           }
         })
       };
-      this.sorter = new Sort( this.state.map, (newMap, disabled) =>
-        this.setState({map: newMap, disabled: disabled}))
-
+      this.speed = 25; //Sorting speed in ms
+      this.sorter = new Sort( this.state.map, this.speed,
+        (newMap, disabled) => this.setState({map: newMap, disabled: disabled}))
       this.refreshBars = this.refreshBars.bind(this)
     }
 
@@ -34,7 +34,8 @@
           bgCol: "white"
         }
       })
-      this.sorter = new Sort( newMap, (map, disabled) => this.setState({map: map, disabled: disabled}))
+      this.sorter = new Sort( newMap, this.speed,
+        (map, disabled) => this.setState({map: map, disabled: disabled}))
       this.setState({
         map: newMap
       })
@@ -44,8 +45,12 @@
       let list = ["Bubble Sort", "Quick Sort", "Merge Sort", "Heap Sort"]
       return [
         React.createElement(NavigationBar, {
+          baseSpeed: "25",
           items: list,
-          listener: newSpeed => { this.sorter.updateSpeed(newSpeed) }
+          listener: newSpeed => {
+            this.sorter.updateSpeed(newSpeed)
+            this.speed = newSpeed
+          }
         }),
         vertBars({
             ...this.state,
@@ -56,7 +61,7 @@
     }
   }
 
-  VertBarDisplay.defaultProps = {
+  BarDisplay.defaultProps = {
     numBars: 20,
     containerPercentageWidth: 0.7,
     bias: 5,
