@@ -8,14 +8,12 @@ export class NavigationBar extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      dditems: props.items
-    }
   }
 
   render() {
     return rce("div", {className: "navBar"},
-      rce(DropDown, {items: this.state.dditems})
+      rce(DropDown, {items: this.props.items}),
+      rce(Slider, {listener: this.props.listener})
     )
   }
 
@@ -23,11 +21,30 @@ export class NavigationBar extends React.Component {
 
 class Slider extends React.Component {
   constructor(props) {
+    super(props)
+    this.state = {
+      value: "70"
+    }
+    //Listener for updating speed of bar sort transition in Sort.js
     this.listener = props.listener
+    this.updateSlider = this.updateSlider.bind(this)
+  }
+
+  updateSlider(e) {
+    this.setState({value: e.target.value})
+    this.listener(parseInt(this.state.value))
   }
 
   render() {
-    return rce("div")
+    return rce("div", {className: "sliderContainer"},
+      rce("input", {
+        type: "range",
+        className: "slider",
+        min: "20",
+        max: "150",
+        value: this.state.value,
+        onChange: this.updateSlider
+      }, null), rce("p", {}, "Change speed "))
   }
 }
 
