@@ -13,16 +13,13 @@
         percentageWidth: props.containerPercentageWidth,
         map: Array.from(new Array(props.numBars), (x, i) => {
           return {
-            key: i == 0 ? "roflxd" : i + props.maxHeight.toString(),
-            height: Math.random()*props.maxHeight + props.bias
+            key: i + props.maxHeight.toString(),
+            height: Math.random()*props.maxHeight + props.bias,
+            bgCol: "white"
           }
         })
       };
       this.sorter = new Sort( this.state.map, (newMap) => this.setState({map: newMap}) )
-    }
-
-    componentDidMount() {
-      //this.sorter.sort() // Hacky fix need to resolve this problem
     }
 
     render() {
@@ -30,15 +27,15 @@
       return [
         React.createElement(NavigationBar, {
           items: list,
-          //listener: (percentageWidth) => this.setState({containerPercentageWidth: percentageWidth})
+          listener: newSpeed => { this.sorter.updateSpeed(newSpeed) }
         }),
-        vertBars({...this.state, clickHandler: this.sorter.sort})
+        vertBars({...this.state, clickHandler: this.sorter.toggleSort})
       ]
     }
   }
 
   VertBarDisplay.defaultProps = {
-    numBars: 40,
+    numBars: 20,
     containerPercentageWidth: 0.7,
     bias: 5,
     maxHeight: 40 //Given in terms of viewport height
@@ -75,17 +72,16 @@
       }, Array.from(new Array(props.numBars), (item, i) =>
         React.createElement("div",
           {
-            className: "barTest",
-            id: `${props.map[i].key}`,
+            className: "bar",
+            //id: `${props.map[i].key}`,
             key: `${props.map[i].key}`,
             size: props.map[i].height,
             style: {
               width: `${barWidthAsPercentage}%`,
               height: `${props.map[i].height}vh`,
-              backgroundColor: props.map[i].key == "roflxd" ? "red" : "blue"
+              backgroundColor: props.map[i].bgCol
             }
-          }
-        )
+          }, `${roundDown(props.map[i].height, 2)}`)
       ), React.createElement("button", {
         className: "sortButton",
         onClick: props.clickHandler,
