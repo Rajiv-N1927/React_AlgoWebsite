@@ -88,9 +88,9 @@ body {
 }
 
 .sliderContainer p {
-  padding: 0;
-  margin: 0;
-  /* font-size: 12px; */
+  padding: 0 auto;
+  margin: 0 auto;
+  font-size: 12px;
   float: left;
   display: inline;
 }
@@ -107,10 +107,10 @@ body {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 1.8em;
+  height: 1.8em;
   background-color: rgba(49, 149, 237, 0.9);
-  border-radius: 0.4rem;
+  border-radius: 0.7rem;
   cursor: pointer;
 }
 
@@ -137,13 +137,13 @@ body {
 
 .buttonContainer {
   display: inline;
-  padding: 10% 0 0 17%;
+  padding-left: 17%;
 }
 
 .customButton {
   width: 25%;
   height: 2em;
-  font-size: 1.2em;
+  font-size: 0.9em;
   margin-left: 2em;
   border-radius: 0.25rem;
   display: inline-block;

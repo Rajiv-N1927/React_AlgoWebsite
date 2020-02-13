@@ -6,9 +6,10 @@ export function bubbleSortTimeline(map) {
   do {
     swapped = false;
     for ( let idx = 0; idx < tempMap.length - iteration - 1; idx++ ) {
-      let tuple = { index: idx, swapped: false }
+      let tuple = { idx: idx, idxSwapped: -1, swapped: false }
       if ( tempMap[idx].height > tempMap[idx+1].height ) {
-        tuple.swapped = true
+        tuple.idxSwapped = idx + 1;
+        tuple.swapped = true;
         tempMap = swap(tempMap, idx, idx+1);
         swapped = true;
       }
@@ -19,11 +20,11 @@ export function bubbleSortTimeline(map) {
   return timeline
 }
 
+// Try to make this a little better if possible
 export function mergeSortTimeline(map) {
   let timeline = new Array();
   let tempMap = map.slice()
   merge_sort(tempMap, 0, map.length - 1, timeline);
-  console.log(tempMap)
   return timeline
 }
 
@@ -40,7 +41,6 @@ function merge_sort(map, start, end, timeline) {
 }
 
 function merge(map, start, mid, end, timeline) {
-  console.log(start, mid, end)
   let startpos = start, midpos = mid + 1;
   let test = start
   let tempArr = new Array(end - start + 1)
@@ -62,11 +62,17 @@ function merge(map, start, mid, end, timeline) {
       tempArr[it++] = map[midpos++]
     }
   }
+
   for ( let idx = 0; idx < it; idx++ ) {
+    let tuple = {idx: test, height: tempArr[idx].height}
     map[test++] = tempArr[idx]
+    timeline.push(tuple)
   }
 }
 
+export function resize(arr, idx, height) {
+  arr[idx].height = height;
+}
 // Swap by index number in array. x must be less than y
 export function swap(arr, x, y) {
   return [

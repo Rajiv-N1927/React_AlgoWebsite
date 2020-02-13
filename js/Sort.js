@@ -2,7 +2,12 @@
   To be modified into a topbar containing the sorting algorithms on a drop-
   down menu.
 */
-import { swap, bubbleSortTimeline } from "./Algorithms.js"
+import {
+  swap,
+  resize,
+  bubbleSortTimeline,
+  mergeSortTimeline
+} from "./Algorithms.js"
 
 export class Sort {
   //Map requires key, size
@@ -14,6 +19,8 @@ export class Sort {
     //Interval speed
     this.speed = sortSpeed;
     this.sort = this.sort.bind(this)
+    this.bubbleSort = this.bubbleSort.bind(this)
+    this.mergeSort = this.mergeSort.bind(this)
     this.toggleSort = this.toggleSort.bind(this)
     this.updateSpeed = this.updateSpeed.bind(this)
     this.generateAnimations = this.generateAnimations.bind(this)
@@ -33,14 +40,41 @@ export class Sort {
     return array
   }
 
-  //Get the
+  /*
+    Add in algorithm for swapping out sort and timeline in this function
+    E.g. sort(algorithm, timeline) ->
+      timeline.forEach((props, i) => {
+        algorithm(props)
+            .
+            .
+            .
+  */
   sort() {
+    // mergeSortTimeline(this.map)
     this.listener(this.map, true)
+    this.mergeSort()
+  }
+
+  mergeSort() {
+    const timeline = mergeSortTimeline(this.map)
+    timeline.forEach((props, idx) => {
+      this.active = setTimeout(() => {
+          resize(this.map, props.idx, props.height)
+          if ( idx >= timeline.length - 1)
+            this.listener(this.map, false)
+          else {
+            this.listener(this.map, true)
+          }
+      }, idx * this.speed);
+    });
+  }
+
+  bubbleSort() {
     const timeline = bubbleSortTimeline(this.map)
     timeline.forEach((props, idx) => {
       this.active = setTimeout(() => {
           if ( props.swapped ) {
-            this.map = swap(this.map, props.index, props.index + 1);
+            this.map = swap(this.map, props.idx, props.idxSwapped);
           }
           if ( idx >= timeline.length - 1)
             this.listener(this.map, false)

@@ -1,5 +1,6 @@
  import { Sort } from './Sort.js'
  import { NavigationBar } from './navBar.js'
+ import { roundDown } from './Algorithms.js'
 /*
   Generates verticle bars of randomized sizes
 */
@@ -16,7 +17,6 @@
           return {
             key: i + props.maxHeight.toString(),
             height: Math.random()*props.maxHeight + props.bias,
-            //bgCol: "white"
           }
         })
       };
@@ -68,14 +68,6 @@
     maxHeight: 40 //Given in terms of viewport height
   }
 
-  //Takes in the number assuming a float, and the number of places it must be
-  // Rounded to
-  //E.g.
-  export function roundDown(floatNum, toPlace) {
-    let places = Math.pow(10, toPlace)
-    return Math.round( floatNum * places ) / places
-  }
-
   /*
     Generate verticle bars given the app width and percentage taken up by
     parent class holding the verticle bars.
@@ -108,7 +100,7 @@
               height: `${props.map[i].height}vh`,
               //backgroundColor: props.map[i].bgCol
             }
-          }, /*`${roundDown(props.map[i].height, 2)}`*/)
+          })
       ), React.createElement("div", {className: "buttonContainer"},
           React.createElement("button", {
           className: "customButton sort",
