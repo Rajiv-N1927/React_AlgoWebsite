@@ -20,9 +20,16 @@
           }
         })
       };
+
       this.speed = 25; //Sorting speed in ms
-      this.sorter = new Sort( this.state.map, this.speed,
-        (newMap, disabled) => this.setState({map: newMap, disabled: disabled}))
+      this.algo = "BubbleSort"
+
+      this.sorter = new Sort( {
+        map: this.state.map,
+        sortSpeed: this.speed,
+        algo: this.algo
+      }, (newMap, disabled) => this.setState({map: newMap, disabled: disabled}))
+
       this.refreshBars = this.refreshBars.bind(this)
     }
 
@@ -34,23 +41,37 @@
           bgCol: "white"
         }
       })
-      this.sorter = new Sort( newMap, this.speed,
-        (map, disabled) => this.setState({map: map, disabled: disabled}))
+
+      this.sorter = new Sort( {
+        map: newMap,
+        sortSpeed: this.speed,
+        algo: this.algo
+      }, (newMap, disabled) => this.setState({map: newMap, disabled: disabled}))
+
       this.setState({
         map: newMap
       })
     }
 
     render() {
-      let list = ["Bubble Sort", "Quick Sort", "Merge Sort", "Heap Sort"]
+      let list = [
+        "BubbleSort",
+        "QuickSort",
+        "MergeSort",
+        "HeapSort"
+      ]
       return [
         React.createElement(NavigationBar, {
           baseSpeed: "25",
           items: list,
-          listener: newSpeed => {
+          speedListener: newSpeed => {
             this.sorter.updateSpeed(newSpeed)
             this.speed = newSpeed
-          }
+          },
+          algoListener: newAlgo => {
+            this.sorter.updateAlgorithm(newAlgo)
+            this.algo = newAlgo
+          },
         }),
         vertBars({
             ...this.state,
