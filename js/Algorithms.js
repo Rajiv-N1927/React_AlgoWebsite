@@ -70,6 +70,11 @@ function merge(map, start, mid, end, timeline) {
   }
 }
 
+export function quickSortTimeline(map) {
+  let timeline = new Array();
+  return timeline
+}
+
 export function resize(arr, idx, height) {
   arr[idx].height = height;
 }
