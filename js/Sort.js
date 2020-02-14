@@ -11,16 +11,15 @@ import {
 
 export class Sort {
   //Map requires key, size
-  constructor(map, sortSpeed, listener) {
+  constructor(props, listener) {
     //Takes in a map of the keyPairs (key, size) and the length of the map
-    this.map = map;
+    this.map = props.map;
+    this.speed = props.sortSpeed;
+    this.algo = props.algo;
+
     this.listener = listener;
-    this.toggleInterval = false
-    //Interval speed
-    this.speed = sortSpeed;
+
     this.sort = this.sort.bind(this)
-    this.bubbleSort = this.bubbleSort.bind(this)
-    this.mergeSort = this.mergeSort.bind(this)
     this.toggleSort = this.toggleSort.bind(this)
     this.updateSpeed = this.updateSpeed.bind(this)
     this.generateAnimations = this.generateAnimations.bind(this)
@@ -30,9 +29,37 @@ export class Sort {
     this.speed = newSpeed
   }
 
+  updateAlgorithm(algo) {
+    this.algo = algo
+  }
+
+  /*
+    Make this smaller by passing the algorithm into "this.algo"
+    rather than using a switch statement
+  */
   toggleSort() {
-    this.toggleInterval = !this.toggleInterval
-    this.sort()
+    let timeline = new Array()
+    let type = true
+    switch(this.algo) {
+      case "BubbleSort":
+        timeline = bubbleSortTimeline(this.map)
+        console.log("bubble")
+      break;
+      case "MergeSort":
+        timeline = mergeSortTimeline(this.map)
+        type = false;
+        console.log("merge")
+      break;
+      case "QuickSort":
+        timeline = bubbleSortTimeline(this.map)
+      break;
+      case "HeapSort":
+        timeline = bubbleSortTimeline(this.map)
+      break;
+      default:
+        console.log(this.algo)
+    }
+    this.sort(timeline, type)
   }
 
   generateAnimations() {
@@ -41,40 +68,18 @@ export class Sort {
   }
 
   /*
-    Add in algorithm for swapping out sort and timeline in this function
-    E.g. sort(algorithm, timeline) ->
-      timeline.forEach((props, i) => {
-        algorithm(props)
-            .
-            .
-            .
+    swapType merely means that the sorting algorithm includes swapping elements
+    as its method of sorting. Otherwise just resize the element. Resizing
+    in my opinion is pretty rudimentary and not as intuitive to look at.
   */
-  sort() {
+  sort(timeline, swapType) {
     // mergeSortTimeline(this.map)
     this.listener(this.map, true)
-    this.mergeSort()
-  }
-
-  mergeSort() {
-    const timeline = mergeSortTimeline(this.map)
     timeline.forEach((props, idx) => {
       this.active = setTimeout(() => {
-          resize(this.map, props.idx, props.height)
-          if ( idx >= timeline.length - 1)
-            this.listener(this.map, false)
-          else {
-            this.listener(this.map, true)
-          }
-      }, idx * this.speed);
-    });
-  }
-
-  bubbleSort() {
-    const timeline = bubbleSortTimeline(this.map)
-    timeline.forEach((props, idx) => {
-      this.active = setTimeout(() => {
-          if ( props.swapped ) {
-            this.map = swap(this.map, props.idx, props.idxSwapped);
+          if ( !swapType )resize(this.map, props.idx, props.height)
+          else if ( props.swapped ) {
+              this.map = swap(this.map, props.idx, props.idxSwapped);
           }
           if ( idx >= timeline.length - 1)
             this.listener(this.map, false)
