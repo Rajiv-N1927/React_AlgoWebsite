@@ -12,8 +12,8 @@ export class NavigationBar extends React.Component {
 
   render() {
     return rce("div", {className: "navBar"},
-      rce(DropDown, {items: this.props.items}),
-      rce(Slider, {baseSpeed: this.props.baseSpeed, listener: this.props.listener})
+      rce(DropDown, {items: this.props.items, listener: this.props.algoListener}),
+      rce(Slider, {baseSpeed: this.props.baseSpeed, listener: this.props.speedListener})
     )
   }
 
@@ -57,13 +57,24 @@ class DropDown extends React.Component {
       activated: props.items[0],
       toggled: false
     }
+    this.listener = props.listener
     this.clickHandler = this.clickHandler.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
   }
 
+  /*
+    Change the current activated item.
+  */
+
   clickHandler(e) {
     this.setState({ activated: e.target.innerHTML })
+    this.listener(e.target.innerHTML)
   }
+
+  /*
+    When entering and exiting the menu the class 'show' is added to the div
+    to show the dropdown menu
+  */
 
   toggleMenu(e) {
     this.setState({

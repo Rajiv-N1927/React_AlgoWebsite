@@ -118,7 +118,6 @@ body {
 /* CSS for the bar container */
 .vBarBox {
   margin: 0 auto;
-  height: 45vh;
   /* transform: rotateX(180deg); */
 }
 

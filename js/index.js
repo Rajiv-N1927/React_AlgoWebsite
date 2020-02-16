@@ -7,7 +7,7 @@ import { BarDisplay } from './BarDisplay.js'
 ReactDOM.render(
  React.createElement(
    BarDisplay, {
-     numBars: 200,
+     numBars: 100,
      containerWidth: document.getElementById('app').getBoundingClientRect().width,
    }
  ), document.getElementById('app')

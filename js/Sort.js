@@ -6,7 +6,9 @@ import {
   swap,
   resize,
   bubbleSortTimeline,
-  mergeSortTimeline
+  mergeSortTimeline,
+  quickSortTimeline,
+  heapSortTimeline
 } from "./Algorithms.js"
 
 export class Sort {
@@ -22,7 +24,6 @@ export class Sort {
     this.sort = this.sort.bind(this)
     this.toggleSort = this.toggleSort.bind(this)
     this.updateSpeed = this.updateSpeed.bind(this)
-    this.generateAnimations = this.generateAnimations.bind(this)
   }
 
   updateSpeed(newSpeed) {
@@ -39,7 +40,7 @@ export class Sort {
   */
   toggleSort() {
     let timeline = new Array()
-    let type = true
+    let sortType = true
     switch(this.algo) {
       case "BubbleSort":
         timeline = bubbleSortTimeline(this.map)
@@ -47,24 +48,19 @@ export class Sort {
       break;
       case "MergeSort":
         timeline = mergeSortTimeline(this.map)
-        type = false;
+        sortType = false;
         console.log("merge")
       break;
       case "QuickSort":
-        timeline = bubbleSortTimeline(this.map)
+        timeline = quickSortTimeline(this.map)
       break;
       case "HeapSort":
-        timeline = bubbleSortTimeline(this.map)
+        timeline = heapSortTimeline(this.map)
       break;
       default:
         console.log(this.algo)
     }
-    this.sort(timeline, type)
-  }
-
-  generateAnimations() {
-    let array = Array.from(new Array(this.map.length), (x, i) => i)
-    return array
+    this.sort(timeline, sortType)
   }
 
   /*
@@ -77,9 +73,9 @@ export class Sort {
     this.listener(this.map, true)
     timeline.forEach((props, idx) => {
       this.active = setTimeout(() => {
-          if ( !swapType )resize(this.map, props.idx, props.height)
+          if ( !swapType ) resize(this.map, props.idx, props.height)
           else if ( props.swapped ) {
-              this.map = swap(this.map, props.idx, props.idxSwapped);
+              swap(this.map, props.idx, props.idxSwapped);
           }
           if ( idx >= timeline.length - 1)
             this.listener(this.map, false)
@@ -89,6 +85,7 @@ export class Sort {
       }, idx * this.speed);
     });
   }
+
 }
 
 function getRandomInt(max) {

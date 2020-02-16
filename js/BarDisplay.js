@@ -84,9 +84,9 @@
 
   BarDisplay.defaultProps = {
     numBars: 20,
-    containerPercentageWidth: 0.7,
+    containerPercentageWidth: 0.9,
     bias: 5,
-    maxHeight: 40 //Given in terms of viewport height
+    maxHeight: 50 //Given in terms of viewport height
   }
 
   /*
@@ -107,7 +107,10 @@
     return React.createElement(
       "div", {
         className: "vBarBox",
-        style: {width: `${props.percentageWidth*100}%`},
+        style: {
+          width: `${props.percentageWidth*100}%`,
+          height: `${props.maxHeight + props.bias}`
+        },
         key:"vBarBox"
       }, Array.from(new Array(props.numBars), (item, i) =>
         React.createElement("div",
